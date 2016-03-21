@@ -1,6 +1,7 @@
 <?php
 require_once('../mysql_connect.php');
 require_once('../cleanData.php');
+require_once('../ranString.php');
 
 function createRounds(){
 	$dbc = createDefaultConnection('games');
@@ -26,14 +27,14 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
 	$dbc = createDefaultConnection('games');
 	
 	$rounds_id = createRounds();
+	$id = randomString_Numeric(4);
 	
-	$stmt = $dbc->prepare('INSERT INTO game (id, p1_id, p2_id, rounds_id, filled, currentRound, date) VALUES(NULL,?,NULL,?,0,?,NULL)');
+	$stmt = $dbc->prepare('INSERT INTO game (id, p1_id, p2_id, rounds_id, filled, currentRound, date) VALUES(?,?,NULL,?,0,?,NULL)');
 	
 	$cround = 1;
-	$stmt->bind_param('iii',$player_data["id"], $rounds_id, $cround);
+	$stmt->bind_param('iiii',$id, $player_data["id"], $rounds_id, $cround);
 	
 	$worked = $stmt->execute();
-	$id = $dbc->insert_id;
 	
 	if($worked){
 		$gameLink = "play.php?id=".$id."&userid=".$player_data["login_id"];
