@@ -1,18 +1,12 @@
 <?php
-
-function cleanDataTemp($data){
-	$data = preg_replace('/([^A-Za-z0-9])*/', "", $data);
-	$data = trim($data);
-	$data = strip_tags($data);
-	$data = stripcslashes($data);
-	return htmlentities($data);
-}
+require_once('../cleanData.php');
 
 if(empty($_GET["id"]) || empty($_GET["name"])){
 	exit("Invalid data");
 }
-$id = cleanDataTemp($_GET["id"]);
-$name = cleanDataTemp($_GET["name"]);
+
+$id = cleanData_Alphanumeric($_GET["id"]);
+$name = cleanData_Alphanumeric($_GET["name"]);
 
 //This method to read from the DB is ripped from the PHP doc
 
@@ -27,7 +21,7 @@ if(!$stmt->prepare($query)){
 	exit("Statement failed to prepare!");
 }
 
-$stmt->bind_param("s", cleanDataTemp($id));
+$stmt->bind_param("s", cleanData_Alphanumeric($id));
 $stmt->execute();
 
 $result = $stmt->get_result();
@@ -52,7 +46,7 @@ if($row["filled"] == 0){
 		$dbc->close();
 		exit("Statement failed to prepare!");
 	}else{
-		$stmt->bind_param("s", cleanDataTemp($player_data["id"]));
+		$stmt->bind_param("s", cleanData_Alphanumeric($player_data["id"]));
 		$worked = $stmt->execute();
 		
 		if($worked){
