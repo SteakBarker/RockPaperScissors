@@ -32,6 +32,11 @@ if(!$stmt->prepare($query))
 	$stmt->execute();
 	$result = $stmt->get_result();
 	
+	if(empty($result)){
+			//Eh. Good enough for now.
+		exit("Could not find game with that ID");
+	}
+	
 	//TODO
 	//This is where we should check if the game is full, and if it's not, allow the user to join
 	
@@ -44,8 +49,6 @@ if(!$stmt->prepare($query))
 		$player_data = createPlayer($name);
 			//Player data is an arary["id","login_id]
 			
-		//TODO add the new player to the table, then set fileld to true (1)
-		
 		$query = "update game set p1_id=?, filled=1";
 		$stmt = $dbc->stmt_init();
 		if(!$stmt->prepare($query)){
@@ -56,9 +59,14 @@ if(!$stmt->prepare($query))
 			
 			if($worked){
 				echo "You've been added";
-				//TODO: Create them a link to join
+				$gameLink = "play.php?id=".$id."&userid=".$player_data["login_id"];
+				
+				echo "<h1>Game Joined Successfully </h1>
+					<p> Your Link: <a href=".$gameLink.">".$gameLink."</a><p>
+					<p> Use your game link to play. Keep it private";
 			}
 		}
+	}
 }
 
 $stmt->execute();
