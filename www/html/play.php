@@ -1,19 +1,11 @@
 <?php
-
-	function cleanData($data){
-		
-		$data = preg_replace('/([^A-Za-z0-9])*/', "", $data);
-		$data = trim($data);
-		$data = strip_tags($data);
-		$data = stripcslashes($data);
-		return htmlentities($data);
-	}
-
+	require_once('../cleanData.php');
+	
 	if(empty($_GET["id"]) || empty($_GET["userid"])){
 		exit("Invalid data");
 	}
-	$id = cleanData($_GET["id"]);
-	$login_id = cleanData($_GET["userid"]);
+	$id = cleanData_Alphanumeric($_GET["id"]);
+	$login_id = cleanData_Alphanumeric($_GET["userid"]);
 	
 	require_once('../mysql_connect.php');
 	$dbc = createDefaultConnection('games');

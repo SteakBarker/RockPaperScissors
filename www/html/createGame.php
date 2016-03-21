@@ -1,6 +1,8 @@
 <?php
+require_once('../mysql_connect.php');
+require_once('../cleanData.php');
+
 function createRounds(){
-	//require_once('../mysql_connect.php');
 	$dbc = createDefaultConnection('games');
 	$stmt_rounds = $dbc->prepare('INSERT INTO rounds(id, r1, r2, r3, r4, r5) VALUES(NULL,NULL,NULL,NULL,NULL,NULL)');
 	$stmt_rounds->execute();
@@ -10,9 +12,8 @@ function createRounds(){
 if($_SERVER['REQUEST_METHOD'] === 'POST'){
 	
 	//First we gotta create player 1
-	
 	require_once('../createPlayer.php');
-	$name = cleanData($_POST["name"]);
+	$name = cleanData_Alphanumeric($_POST["name"]);
 	
 	if(empty($name)){
 		exit('Invalid data');
