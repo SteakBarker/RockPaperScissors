@@ -1,0 +1,43 @@
+<!DOCTYPE HTML>
+
+<html>
+<head>
+<script src="js/jquery-1.12.0.js"></script>
+</head>
+</body>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	
+	<div class="container">
+		<h1> Create game </h1>
+		
+		<form action="demo_form.asp" method="post">
+			Name: <input type="text" name="name"><br>
+			<input type="submit" formmethod="post" formaction="createGame.php" value="Create">
+		</form>
+	</div>
+</meta>
+	
+<script>
+	function createGame(){
+		sendAjax(function(output){
+			alert(output+"");
+		});
+	}
+		
+	function sendAjax(handleData) {
+		$.ajax({
+			url:"creatGame.php",
+			type:'POST',
+			data:
+			{
+				p_name:document.getElementById("p_name").value,
+			},
+			success:function(data) {
+				handleData(data); 
+			}
+		});
+	}
+</script>
+
+</body>
+</html>

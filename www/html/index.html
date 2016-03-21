@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>RPS</title>
+	</head>
+	
+	
+	<body>
+		<h1> Rock Paper Scissors </h1>
+		
+		<input type="submit" name="viewGames" value = "View Current Games" onclick="viewGames()"/>
+		<input type="submit" name="createGame" value = "Create Game" onclick="createGame()"/>
+		<input type="submit" name="joinGame" value = "JoinGame" onclick="joinGame()"/>
+	</body>
+	
+	<script>
+		function viewGames(){
+			window.location.href = "viewGames.php";
+		}
+		function createGame(){
+			window.location.href = "createGame.html";
+		}
+		function joinGame(){
+			window.location.href = "joinGame.html";
+		}
+	</script>
+</html>
