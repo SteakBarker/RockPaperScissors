@@ -1,15 +1,6 @@
 <?php
 	require_once('cleanData.php');
-	
-	function generateRandomString($length = 10) {
-		$characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-		$charactersLength = strlen($characters);
-		$randomString = '';
-		for ($i = 0; $i < $length; $i++) {
-			$randomString .= $characters[rand(0, $charactersLength - 1)];
-		}
-		return $randomString;
-	}
+	require_once('ranString.php');
 
 	function createPlayer($name){
 		$name = cleanData_Alphanumeric($name);
@@ -21,7 +12,7 @@
 			$dbc = createDefaultConnection('games');
 			
 			$stmt = $dbc->prepare('INSERT INTO player (id, name, seen, login_id) VALUES(NULL, ?, 1, ?)');
-			$login_id = generateRandomString(5);
+			$login_id = randomString_Alphanumeric(5);
 			$stmt->bind_param('ss', $name, $login_id);
 			
 			$worked = $stmt->execute();
