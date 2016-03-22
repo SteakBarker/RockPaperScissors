@@ -23,13 +23,14 @@
 				
 				if ($result=@mysqli_query($dbc,$sql)){
 					//Gets one row
+					require_once('../cleanData.php');
 					while($row=mysqli_fetch_row($result)){
-						require_once('../cleanData.php');
 						
 						$join_url = "/joinGame.php?id=".cleanData_Alphanumeric($row[0]);
 											//Even though I know for a fact the user could not have set their ID, I'd still like to clean it			
-						$sql="SELECT name FROM player where id=".cleanData_Alphanumeric($row[1]);
-						$p1_name = cleanData_Alphanumeric(mysqli_fetch_row(@mysqli_query($dbc,$sql))[0]);
+						$sql_name="SELECT name FROM player where id='".cleanData_Alphanumeric($row[1])."'";
+						
+						$p1_name = cleanData_Alphanumeric(mysqli_fetch_row(@mysqli_query($dbc,$sql_name))[0]);
 						
 						echo '<tr>';
 						

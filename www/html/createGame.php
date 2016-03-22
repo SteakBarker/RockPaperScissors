@@ -12,16 +12,13 @@ function createRounds(){
 
 if($_SERVER['REQUEST_METHOD'] === 'POST'){
 	
-	//First we gotta create player 1
-	require_once('../createPlayer.php');
-	$name = cleanData_Alphanumeric($_POST["name"]);
-	
-	if(empty($name)){
+	if(empty($_POST["name"])){
 		exit('Invalid data');
 	}
 	
-	$player_data = createPlayer($name);
-		//TODO check to make sure its not null
+	//First we gotta create player 1
+	require_once('../createPlayer.php');
+	$name = cleanData_Alphanumeric($_POST["name"]);
 	
 	$dbc = createDefaultConnection('games');
 	
@@ -54,15 +51,17 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
 		}
 	}
 	
-	$stmt = $dbc->prepare('INSERT INTO game (id, p1_id, p2_id, rounds_id, filled, currentRound, date) VALUES(?,?,NULL,?,0,?,NULL)');
+	$player_id = createPlayer($name);
+		//TODO check to make sure its not null
 	
-	$cround = 1;
-	$stmt->bind_param('iiii',$id, $player_data["id"], $rounds_id, $cround);
+	$stmt = $dbc->prepare('INSERT INTO game (id, p1_id, p2_id, rounds_id, filled, currentRound, date) VALUES(?,?,NULL,?,0,1,NULL)');
+	
+	$stmt->bind_param('ssi',$id, $player_id, $rounds_id);
 	
 	$worked = $stmt->execute();
 	
 	if($worked){
-		$gameLink = "play.php?id=".$id."&userid=".$player_data["login_id"];
+		$gameLink = "play.php?id=".$id."&userid=".$player_id;
 		
 		echo "<h1>Game Created Successfully </h1>
 			<p> Game Code: ".$id."</p>

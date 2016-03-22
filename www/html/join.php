@@ -37,7 +37,7 @@ if($row["filled"] == 0){
 	//The game is not filled. We can allow them to join
 	
 	require_once('../createPlayer.php');
-	$player_data = createPlayer($name);
+	$player_id = createPlayer($name);
 		//Player data is an arary["id","login_id]
 			
 	$query = "update game set p2_id=?, filled=1 where id=?";
@@ -46,12 +46,12 @@ if($row["filled"] == 0){
 		$dbc->close();
 		exit("Statement failed to prepare!");
 	}else{
-		$stmt->bind_param("ss", cleanData_Alphanumeric($player_data["id"]), $id);
+		$stmt->bind_param("ss", cleanData_Alphanumeric($player_id), $id);
 		$worked = $stmt->execute();
 		
 		if($worked){
 			echo "You've been added";
-			$gameLink = "play.php?id=".$id."&userid=".$player_data["login_id"];
+			$gameLink = "play.php?id=".$id."&userid=".$player_id;
 			
 			echo "<h1>Game Joined Successfully </h1>
 				<p> Your Link: <a href=".$gameLink.">".$gameLink."</a><p>
