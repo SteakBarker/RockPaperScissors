@@ -40,14 +40,16 @@ if($row["filled"] == 0){
 	$player_data = createPlayer($name);
 		//Player data is an arary["id","login_id]
 			
-	$query = "update game set p1_id=?, filled=1";
+	$query = "update game set p2_id=?, filled=1 where id=?";
 	$stmt = $dbc->stmt_init();
 	if(!$stmt->prepare($query)){
 		$dbc->close();
 		exit("Statement failed to prepare!");
 	}else{
-		$stmt->bind_param("s", cleanData_Alphanumeric($player_data["id"]));
+		$stmt->bind_param("ss", cleanData_Alphanumeric($player_data["id"]), $id);
 		$worked = $stmt->execute();
+		
+		echo $player_data["id"];
 		
 		if($worked){
 			echo "You've been added";
