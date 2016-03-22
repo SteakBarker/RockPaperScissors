@@ -49,8 +49,6 @@ if($row["filled"] == 0){
 		$stmt->bind_param("ss", cleanData_Alphanumeric($player_data["id"]), $id);
 		$worked = $stmt->execute();
 		
-		echo $player_data["id"];
-		
 		if($worked){
 			echo "You've been added";
 			$gameLink = "play.php?id=".$id."&userid=".$player_data["login_id"];
