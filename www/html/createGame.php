@@ -23,11 +23,36 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
 	$player_data = createPlayer($name);
 		//TODO check to make sure its not null
 	
-	require_once('../mysql_connect.php');
 	$dbc = createDefaultConnection('games');
 	
 	$rounds_id = createRounds();
-	$id = randomString_Numeric(4);
+	
+	//Lets now create a uniqe id.
+	
+	$query = "SELECT * FROM game WHERE id=?";
+	$stmt = $dbc->stmt_init();
+	$id = 0;
+	for ($i = 0; $i<=100; $i++) {
+		if(!$stmt->prepare($query)){
+			$dbc->close();
+			exit("Statement failed to prepare!");
+		}
+		$id = randomString_Numeric(4);
+		$stmt->bind_param("s", cleanData_Alphanumeric($id));
+		$stmt->execute();
+
+		$result = $stmt->get_result();
+		$row = $result->fetch_array();
+		if($row === null){
+			//The ID has not been used
+			break;
+		}
+		if($i >= 15){ // We will only give it 15 tries
+			$stmt->close();
+			$dbc->close();
+			exit("Could not find uniqe code");
+		}
+	}
 	
 	$stmt = $dbc->prepare('INSERT INTO game (id, p1_id, p2_id, rounds_id, filled, currentRound, date) VALUES(?,?,NULL,?,0,?,NULL)');
 	
