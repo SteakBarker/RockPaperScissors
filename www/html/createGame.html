@@ -10,29 +10,46 @@
 	<div class="container">
 		<h1> Create game </h1>
 		
-		<p id="opponent"> Your Opponent: NULL </p>
+		<p>Your Name: <input id = "name" type="text" name="name" value = ""/></p>
+		<input type="submit" name="submit" value = "Create Game" onclick="createGame()"/>
 		
-		<form action="demo_form.asp" method="post">
-			Name: <input type="text" name="name"><br>
-			<input type="submit" formmethod="post" formaction="createGame.php" value="Create">
-		</form>
+		<h1 id="game_code">Game Code: </h1>
+		<p>Personal Link: <a href="" id="p_link"></a><p>
+		<p>Join Link: <a href="" id="j_link"></a><p>
+		<p id="message"><p>
 	</div>
 </meta>
 	
 <script>
 	function createGame(){
 		sendAjax(function(output){
-			alert(output+"");
+			var results = JSON.parse(output);
+			
+			var game_code = results["game_id"];
+			var personal_link = results["p_link"];
+			var join_link = results["j_link"];
+			
+			if(!game_code || !personal_link || !join_link){
+				$('#message').text("Error: "+output);
+			}else{
+				$('#message').text("");
+				$("#p_link").prop("href", personal_link);
+				$("#j_link").prop("href", join_link);
+			
+				$('#game_code').text("Game Code: ".concat(game_code));
+				$('#p_link').text(personal_link);
+				$('#j_link').text(join_link);
+			}
 		});
 	}
 		
 	function sendAjax(handleData) {
 		$.ajax({
-			url:"creatGame.php",
+			url:"createGame.php",
 			type:'POST',
 			data:
 			{
-				p_name:document.getElementById("p_name").value,
+				name:document.getElementById("name").value,
 			},
 			success:function(data) {
 				handleData(data); 

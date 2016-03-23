@@ -62,11 +62,16 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
 	
 	if($worked){
 		$gameLink = "play.php?id=".$id."&userid=".$player_id;
+		$joinLink = "joinGame.php?id=".$id;
 		
-		echo "<h1>Game Created Successfully </h1>
-			<p> Game Code: ".$id."</p>
-			<p> Your Link: <a href=".$gameLink.">".$gameLink."</a><p>
-			<p> Give your Game Code to your friends so they can battle you! Also, KEEP YOUR GAME LINK PRIVATE";
+		//echo "<h1>Game Created Successfully </h1>
+		//	<p> Game Code: ".$id."</p>
+		//	<p> Your Link: <a href=".$gameLink.">".$gameLink."</a><p>
+		//	<p> Give your Game Code to your friends so they can battle you! Also, KEEP YOUR GAME LINK PRIVATE";
+		
+		$arr = array('game_id' => $id, 'p_link' => $gameLink, 'j_link' => $joinLink);
+		echo json_encode($arr);
+		
 	}else{
 		echo "<h1>Game Creation Falied!</h1>";
 	}
