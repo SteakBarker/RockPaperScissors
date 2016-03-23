@@ -6,7 +6,7 @@
 		$name = cleanData_Alphanumeric($name);
 		
 		if(empty($name)){
-			return "No Data";
+			return null;
 		}else{
 			require_once('mysql_connect.php');
 			$dbc = createDefaultConnection('games');
@@ -16,8 +16,9 @@
 			$stmt = $dbc->stmt_init();
 			for ($i = 0; $i<=100; $i++) {
 				if(!$stmt->prepare($query)){
-					$dbc->close();
-					exit("Statement failed to prepare!");
+					error_log("createPlayer statment failed to prepare - ".$stmt->error,0);
+					$dbc->close();$stmt->close();
+					return null;
 				}
 				$id = randomString_Alphanumeric(5);
 				$stmt->bind_param("s", cleanData_Alphanumeric($id));
@@ -30,21 +31,27 @@
 					break;
 				}
 				if($i >= 25){ // We will only give it 25 tries
-					$stmt->close();
-					$dbc->close();
-					exit("Could not find uniqe code");
+					error_log("It seems the impossible has happend -- createPlayer was unable to find a unique ID ", 0);
+					$dbc->close();$stmt->close();
+					return null;
 				}
 			}
+			$stmt->close();
 			
 			$stmt = $dbc->prepare('INSERT INTO player (id, name, seen) VALUES(?, ?, 1)');
 			$stmt->bind_param('ss',$id, $name);
 			
 			$worked = $stmt->execute();
 			
+			$dbc->close();
+			
 			if($worked){
+				$stmt->close();
 				return $id;	
 			}else{
-				return "Error";
+				error_log("Unable to insert new player into table - ".$stmt->error, 0);
+				$stmt->close(); //We should close the statement after we get the error
+				return null;
 			}
 		}
 	}
