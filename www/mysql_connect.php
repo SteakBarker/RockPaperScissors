@@ -3,7 +3,7 @@
 		
 		$servername = "localhost";
 		$username = "Web";
-		$password = "LOLNO";
+		$password = "Web_avPpsGK";
 		
 		$dbc = new mysqli($servername, $username, $password, $dbname);
 		

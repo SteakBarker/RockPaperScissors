@@ -4,16 +4,30 @@ require_once('../cleanData.php');
 require_once('../ranString.php');
 
 function createRounds(){
-	$dbc = createDefaultConnection('games');
-	$stmt_rounds = $dbc->prepare('INSERT INTO rounds(id, r1, r2, r3, r4, r5) VALUES(NULL,NULL,NULL,NULL,NULL,NULL)');
-	$worked = $stmt_rounds->execute();
+	//$dbc = createDefaultConnection('games');
+	//$stmt_rounds = $dbc->prepare('INSERT INTO rounds(id, r1, r2, r3, r4, r5) VALUES(NULL,NULL,NULL,NULL,NULL,NULL)');
+	//$worked = $stmt_rounds->execute();
 	
-	if($worked){
-		return $dbc->insert_id;	
-	}else{
-		error_log("Unable to create new rounds! (createGame) - ".$stmt->error,0);
-		exit("Error creating game");
+	//if($worked){
+	//	return $dbc->insert_id;	
+	//}else{
+	//	error_log("Unable to create new rounds! (createGame) - ".$stmt->error,0);
+	//	exit("Error creating game");
+	//}
+	
+	require_once('../roundHandler.php');
+	$random_id;
+	while(true){
+		$random_id = randomString_Alphanumeric(5);
+		
+		if(!fileExists($random_id)){
+			break;
+		}
 	}
+	
+	//Now that we have a valid ID, lets create the file.
+	addRound($random_id, "");
+	return $random_id;
 }
 
 if($_SERVER['REQUEST_METHOD'] === 'POST'){
@@ -67,7 +81,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
 	$stmt->close();
 	$stmt = $dbc->prepare('INSERT INTO game (id, p1_id, p2_id, rounds_id, filled, currentRound, date) VALUES(?,?,NULL,?,0,1,NULL)');
 	
-	$stmt->bind_param('ssi',$id, $player_id, $rounds_id);
+	$stmt->bind_param('sss',$id, $player_id, $rounds_id);
 	
 	$worked = $stmt->execute();
 	

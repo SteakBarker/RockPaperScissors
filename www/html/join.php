@@ -54,6 +54,7 @@ if($row["filled"] == 0){
 		exit("Error joining");
 	}else{
 		$stmt->bind_param("ss", cleanData_Alphanumeric($player_id), $id);
+		$worked = $stmt->execute();
 		$dbc->close();
 		
 		if($worked){
