@@ -1,16 +1,20 @@
 <!DOCTYPE html>
 <html>
 	<head>
+		<link rel="stylesheet" type="text/css" href="css/defaultStyle.css">
 		<title>RPS</title>
 	</head>
 	
 	
 	<body>
-		<h1> Rock Paper Scissors </h1>
+		<h1 class="title"> Rock Paper Scissors </h1>
 		
-		<input type="submit" name="viewGames" value = "View Current Games" onclick="viewGames()"/>
-		<input type="submit" name="createGame" value = "Create Game" onclick="createGame()"/>
-		<input type="submit" name="joinGame" value = "JoinGame" onclick="joinGame()"/>
+		<div class="center">
+			<input type="submit" name="viewGames" value = "View Open Games" onclick="viewGames()"/>
+			<input type="submit" name="createGame" value = "Create Game" onclick="createGame()"/>
+			<input type="submit" name="joinGame" value = "Join Game" onclick="joinGame()"/>
+			<input type="submit" name="playGame" value = "Play Game" onclick="playGame()"/>
+		</div>
 	</body>
 	
 	<script>
@@ -21,7 +25,10 @@
 			window.location.href = "createGame.html";
 		}
 		function joinGame(){
-			window.location.href = "joinGame.html";
+			window.location.href = "joinGame.php";
+		}
+		function playGame(){
+			window.location.href = "play.html";
 		}
 	</script>
 </html>
