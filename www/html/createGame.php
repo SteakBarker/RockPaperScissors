@@ -6,8 +6,14 @@ require_once('../ranString.php');
 function createRounds(){
 	$dbc = createDefaultConnection('games');
 	$stmt_rounds = $dbc->prepare('INSERT INTO rounds(id, r1, r2, r3, r4, r5) VALUES(NULL,NULL,NULL,NULL,NULL,NULL)');
-	$stmt_rounds->execute();
-	return $dbc->insert_id;
+	$worked = $stmt_rounds->execute();
+	
+	if($worked){
+		return $dbc->insert_id;	
+	}else{
+		error_log("Unable to create new rounds! (createGame) - ".$stmt->error,0);
+		exit("Error creating game");
+	}
 }
 
 if($_SERVER['REQUEST_METHOD'] === 'POST'){
@@ -31,8 +37,9 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
 	$id = 0;
 	for ($i = 0; $i<=100; $i++) {
 		if(!$stmt->prepare($query)){
-			$dbc->close();
-			exit("Statement failed to prepare!");
+			error_log("createGame statment failed to prepare - ".$stmt->error,0);
+			$dbc->close(); $stmt->close();
+			exit("Error creating game");
 		}
 		$id = randomString_Numeric(4);
 		$stmt->bind_param("s", cleanData_Alphanumeric($id));
@@ -45,15 +52,19 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
 			break;
 		}
 		if($i >= 15){ // We will only give it 15 tries
-			$stmt->close();
-			$dbc->close();
-			exit("Could not find uniqe code");
+			error_log("It seems the impossible has happend -- createGame was unable to find a unique ID ", 0);
+			$dbc->close();$stmt->close();
+			exit("Error creating game");
 		}
 	}
 	
 	$player_id = createPlayer($name);
-		//TODO check to make sure its not null
 	
+	if($player_id === null){
+		exit("Error creating game");
+	}
+	
+	$stmt->close();
 	$stmt = $dbc->prepare('INSERT INTO game (id, p1_id, p2_id, rounds_id, filled, currentRound, date) VALUES(?,?,NULL,?,0,1,NULL)');
 	
 	$stmt->bind_param('ssi',$id, $player_id, $rounds_id);
@@ -61,25 +72,19 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
 	$worked = $stmt->execute();
 	
 	if($worked){
+		$dbc->close();$stmt->close();
+		
 		$gameLink = "play.php?id=".$id."&userid=".$player_id;
 		$joinLink = "joinGame.php?id=".$id;
 		
-		//echo "<h1>Game Created Successfully </h1>
-		//	<p> Game Code: ".$id."</p>
-		//	<p> Your Link: <a href=".$gameLink.">".$gameLink."</a><p>
-		//	<p> Give your Game Code to your friends so they can battle you! Also, KEEP YOUR GAME LINK PRIVATE";
-		
 		$arr = array('game_id' => $id, 'p_link' => $gameLink, 'j_link' => $joinLink);
 		echo json_encode($arr);
-		
 	}else{
-		echo "<h1>Game Creation Falied!</h1>";
+		error_log("Unable to create game - ".$stmt->error, 0);
+		$dbc->close();$stmt->close();
+		exit("Error creating game");
 	}
-		
-	$stmt->close();
-	$dbc->close();
 }else{
-	//The request type wasn't POST
-	echo 'Invalid request';
+	exit("Invalid request");
 }
 ?>
