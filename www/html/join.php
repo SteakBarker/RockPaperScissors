@@ -8,11 +8,10 @@ if(empty($_GET["id"]) || empty($_GET["name"])){
 $id = cleanData_Alphanumeric($_GET["id"]);
 $name = cleanData_Alphanumeric($_GET["name"]);
 
-//This method to read from the DB is ripped from the PHP doc
-
 require_once('../mysql_connect.php');
 $dbc = createDefaultConnection('games');
 
+	//This is our querry that will see if there is any game with that ID
 $query = "SELECT filled FROM game WHERE id=?";
 $stmt = $dbc->stmt_init();
 
@@ -28,19 +27,19 @@ $stmt->execute();
 $result = $stmt->get_result();
 $row = $result->fetch_array();
 
-if($row["filled"] === null){
-		//Eh. Good enough for now.
+if($row["filled"] == null){
+		//If row[filled] is null, then there isn't a game with that ID
 	$dbc->close(); $stmt->close();
 	exit("Could not find game with that ID");
 }
 
 if($row["filled"] == 0){
-	//The game is not filled. We can allow them to join
+	//If filled is 0, then the game is not filled. Lets fill it.
 	
 	require_once('../createPlayer.php');
 	$player_id = createPlayer($name);
-	
-	if($player_id === null){
+		//Lets create a new player
+	if($player_id == null){
 		$dbc->close(); $stmt->close();
 		exit("Error joining");
 	}

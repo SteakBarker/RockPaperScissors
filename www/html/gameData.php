@@ -1,4 +1,6 @@
 <?php
+//This will return an array (JSON encoded) about data from the players game.
+	//History:Last 10 rounds, ppos: Player pos (1, 2), canplay:can they make their next move
 if($_SERVER['REQUEST_METHOD'] === 'POST'){
 	if(empty($_POST["id"]) || empty($_POST["userid"])){
 		exit('Invalid data');
@@ -12,7 +14,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
 	$dbc = createDefaultConnection('games');
 	
 	$query = "SELECT p1_id, p2_id, rounds_id FROM game WHERE id=? and (p1_id=? or p2_id=?)";
-	
+		//Used to see if their is a game with that ID that contains a user with that ID
 	$stmt = $dbc->stmt_init();
 	
 	if(!$stmt->prepare($query)){

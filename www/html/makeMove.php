@@ -1,4 +1,6 @@
 <?php
+//This file will take in 3 inputs: gam id, user Id, and user move and see if that game exists, and if they can make their move, then make the move
+
 if($_SERVER['REQUEST_METHOD'] === 'POST'){
 	
 	if(empty($_POST["id"]) || empty($_POST["userid"] || empty($_POST["move"]))){
@@ -14,6 +16,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
 	$dbc = createDefaultConnection('games');
 	
 	$query = "SELECT p1_id, p2_id, rounds_id FROM game WHERE id=? and (p1_id=? or p2_id=?)";
+		//This querry just sees if there is a game with that player in it.
 	
 	$stmt = $dbc->stmt_init();
 	
@@ -35,8 +38,9 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
 	$row = $result->fetch_array();
 	
 	if(!$row){
+		//This means there is no game with that ID
 		$dbc->close(); $stmt->close();
-		exit("Error");
+		exit("Invalid");
 	}
 	
 	$ppos; //Player pos. Playe 1 or player 2
@@ -45,15 +49,15 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
 	}else if($row["p2_id"] == $uid){
 		$ppos = 2;
 	}else{
-			//This might be dead code because of the if(!row) above
+		//This means there is no user with that id
 		$dbc->close(); $stmt->close();
-		exit("Error");
+		exit("Invalid");
 	}
 	
 	$rounds_id = $row["rounds_id"];
 	
 	$dbc->close(); $stmt->close();
-	//So now we know the player is valid!
+		//we close these. Don't need them anymore.
 	
 	require_once('../roundHandler.php');
 	$canMove = canPlayerMove($rounds_id, $ppos);
@@ -61,7 +65,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
 	if($canMove){
 		addRound($rounds_id, $move, $ppos);
 	}else{
-		echo "You cannot make your throw!";
+		echo "You cannot make your throw twice";
 	}
 }else{
 	exit("Invalid request");
