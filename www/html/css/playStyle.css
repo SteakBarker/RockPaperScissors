@@ -1,0 +1,19 @@
+.center{
+	text-align: center;
+}
+
+h3.inline{
+	display:inline-block;
+}
+
+p.inline{
+	display:inline-block;
+	margin-right: 5vw;
+    margin-left: 5vw;
+}
+
+#table_div{
+	text-align: center;
+	margin-right: 30vw;
+    margin-left: 30vw;
+}

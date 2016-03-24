@@ -58,6 +58,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
 	require_once('../roundHandler.php');
 	
 	$history = getRounds($rounds_id, $uid, 10);
+	$history = substr($history, 0, -2);
 	
 	$canMove = canPlayerMove($rounds_id, $ppos);
 	

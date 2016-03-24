@@ -68,7 +68,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
 	}
 	
 	$stmt->close(); //Go ahead and close the statement. We are going to make a new one.
-	$stmt = $dbc->prepare('INSERT INTO game (id, p1_id, p2_id, rounds_id, filled, currentRound, date) VALUES(?,?,NULL,?,0,1,NULL)');
+	$stmt = $dbc->prepare('INSERT INTO game (id, p1_id, p2_id, rounds_id, filled, date) VALUES(?,?,NULL,?,0,NULL)');
 	
 	$stmt->bind_param('sss',$id, $player_id, $rounds_id);
 	

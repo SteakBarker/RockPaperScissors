@@ -38,7 +38,7 @@
 			}
 			$stmt->close();	//We can close our stmt, we are done with it, and making a new one
 			
-			$stmt = $dbc->prepare('INSERT INTO player (id, name, seen) VALUES(?, ?, 1)');
+			$stmt = $dbc->prepare('INSERT INTO player (id, name) VALUES(?, ?)');
 			$stmt->bind_param('ss',$id, $name);
 			
 			$worked = $stmt->execute();

@@ -2,17 +2,28 @@
 <html>
 <head>
 	<script src="js/zepto.js"></script>
-	<link rel="stylesheet" type="text/css" href="css/defaultStyle.css">
+	<link rel="stylesheet" type="text/css" href="css/playStyle.css">
 </head>
 <body>
-	<h1> History </h1>
-	<table id="table" style="width:100%" border="1">
-		<tr>
-			<td>Your Move</td>
-			<td>Their Move</td>
-			<td>Did you win?</td>
-		</tr>
-	</table>
+	<div class="center">
+		<h1>PENDING</h1>
+	</div>
+	
+	<div class="center">
+		<p class="inline">[NAME]</p>
+		<h3 class="inline"> VS </h3>
+		<p class="inline">[NAME]</p>
+	</div>
+	
+	<div id="table_div">
+		<table id="table" style="width:100%" border="1">
+			<tr>
+				<td>Your Move</td>
+				<td>Their Move</td>
+				<td>Did you win?</td>
+			</tr>
+		</table>
+	</div>
 	
 	<div id="moves" class="center" style="display:none;">
 		<input type="submit" name="submit" value = "ROCK" onclick="play('r')"/>
@@ -40,7 +51,11 @@
 			}else{
 				if(canPlay){
 					$("#moves").show();
+				}else{
+					$("#moves").hide();
 				}
+				document.getElementById("table").innerHTML = "<tr><td>Your Move</td><td>Their Move</td><td>Did you win?</td></tr>";
+				
 				for (var i = 0; i < history.length-1; i+=2) {
 					var yourMove;
 					var theirMove;
@@ -76,7 +91,8 @@
 				userid:p_id,
 			},
 			success:function(data) {
-				handleData(data); 
+				handleData(data);
+				$('#message').text(output);
 			}
 		});
 	}
@@ -92,7 +108,8 @@
 				move:move,
 			},
 			success:function(data) {
-				alert(data);
+				getData();
+				
 			}
 		});
 	}
