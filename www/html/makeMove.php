@@ -36,7 +36,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
 	
 	if(!$row){
 		$dbc->close(); $stmt->close();
-		exit("Cannot find valid game");
+		exit("Error");
 	}
 	
 	$ppos; //Player pos. Playe 1 or player 2
@@ -47,7 +47,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
 	}else{
 			//This might be dead code because of the if(!row) above
 		$dbc->close(); $stmt->close();
-		exit("You're not a valid player");
+		exit("Error");
 	}
 	
 	$rounds_id = $row["rounds_id"];
