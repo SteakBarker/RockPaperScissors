@@ -2,7 +2,9 @@
 	//This handles the round (or results) file.
 	//A round file might look like this: rpprsn
 	//Every odd index is player 1, every even is player 2
-
+	
+	//Rememer, a 'rounds' file is a file that stores the history and moves the players have made
+	
 	//Will return $numb amount of rounds from $file
 	function getRounds($file, $numb){
 		$file = "/games/".$file.".txt";
