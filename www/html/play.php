@@ -2,6 +2,7 @@
 <html>
 <head>
 	<script src="js/zepto.js"></script>
+	<link rel="stylesheet" type="text/css" href="css/defaultStyle.css">
 </head>
 <body>
 	<h1> History </h1>
@@ -12,8 +13,14 @@
 			<td>Did you win?</td>
 		</tr>
 	</table>
-	<input type="submit" name="submit" value = "Test" onclick="getData()"/>
-	<p id="message">loading<p>
+	
+	<div id="moves" class="center" style="display:none;">
+		<input type="submit" name="submit" value = "ROCK" onclick="play('r')"/>
+		<input type="submit" name="submit" value = "PAPER" onclick="play('p')"/>
+		<input type="submit" name="submit" value = "SCISSORS" onclick="play('s')"/>
+	</div>
+	
+	<p id="message"></p>
 </body>
 
 <script>
@@ -28,17 +35,33 @@
 			var playerPos = results["ppos"];
 			var canPlay = results["canPlay"];
 			
-			if(!history || !playerPos || !canPlay){
-				$('#message').text("Error: "+output);
+			if(false){//!history || !playerPos || !canPlay){
+				$('#message').text("Error (Something is null): "+output);
 			}else{
-				//$('#message').text("");
-				//$("#p_link").prop("href", personal_link);
-				//$("#j_link").prop("href", join_link);
-			
-				//$('#game_code').text("Game Code: ".concat(game_code));
-				//$('#p_link').text(personal_link);
-				//$('#j_link').text(join_link);
-				alert(results.toString());
+				if(canPlay){
+					$("#moves").show();
+				}
+				for (var i = 0; i < history.length-1; i+=2) {
+					var yourMove;
+					var theirMove;
+					if(playerPos == 1){
+						yourMove=history[i]
+						theirMove=history[i+1]
+					}else{
+						yourMove=history[i+1]
+						theirMove=history[i]
+					}
+					var table = document.getElementById("table");
+					var row = table.insertRow(1);
+					
+					var cell1 = row.insertCell(0);
+					var cell2 = row.insertCell(1);
+					var cell3 = row.insertCell(2);
+					
+					cell1.innerHTML = yourMove;
+					cell2.innerHTML = theirMove;
+					cell3.innerHTML = "TODO";
+				}
 			}
 		});
 	}
@@ -57,6 +80,26 @@
 			}
 		});
 	}
+	
+	function play(move){
+		$.ajax({
+			url:"makeMove.php",
+			type:'POST',
+			data:
+			{
+				id:id,
+				userid:p_id,
+				move:move,
+			},
+			success:function(data) {
+				alert(data);
+			}
+		});
+	}
+	
+	$( document ).ready(function() {
+		getData();
+	});
 </script>
 
 </html>

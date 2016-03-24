@@ -17,7 +17,7 @@
 		//The results should look like this  'rp' p1=rock, p2=paper
 	function addRound($file, $results, $playerpos){
 		
-		if(($playerpos!=1 && $playerpos!=2) || (preg_match($results, "([^rpsn]+)|.{2,}"))){
+		if(($playerpos!=1 && $playerpos!=2)){ //|| (preg_match($results, "/([^rpsn]+)|.{2,}/"))){
 			error_log("addRound recieved invalid data");
 			exit("Error");
 		}
@@ -29,15 +29,15 @@
 			exit("Error");
 		}
 		
-		$roundFile = fopen($file, "r+") or die("Unable to open file");
+		$roundFile = fopen($file, "w+") or die("Unable to open file");
 		
 		$contents = fread($roundFile, filesize($file));
 		$lastTwo = substr($contents, -2); //Gets last 2 chars
 		$contents = substr($contents, 0, -2);
 			//Removes the last 2 chars
 		
-		$p1_move;
-		$p2_move;
+		$p1_move = 'E';
+		$p2_move = 'E';
 		
 		if($playerpos==1){
 			$p1_move = $results;
@@ -47,7 +47,11 @@
 			$p2_move = $results;
 		}
 		
-		$contents = $contents.$p1_move.$p2_move;
+		if(!$contents){
+			$contents = $p1_move.$p2_move;
+		}else{
+			$contents = $contents.$p1_move.$p2_move;
+		}
 		
 		if(!$p1_move || !$p2_move){
 			error_log("p1_move or p2_move are not set! roundHandler");
@@ -68,20 +72,25 @@
 		
 		$roundFile = fopen($file, "w") or die("Unable to open file");
 		fwrite($roundFile, "nn");
+		
+		if(!file_exists($roundFile)){
+			error_log("create round was unable to create the file!");
+		}
 		fclose($roundFile);
 	}
 	
 	function canPlayerMove($file, $playerpos){
 		$file = "/games/".$file.".txt";
 		
-		if(!file_exists($file)){
-			error_log("Could not find file ".$file);
+		if(!is_readable($file)){
+			error_log("Could not read file ".$file);
 			exit("Error");
 		}
 		
 		$roundFile = fopen($file, "r") or die("Unable to open file");
 		
-		$lastTwo = substr(fread($roundFile, filesize($file)), -2); //Gets last 2 chars
+		$contents = fread($roundFile, filesize($file));
+		$lastTwo = substr($contents, -2); //Gets last 2 chars
 		
 		if($lastTwo[$playerpos-1] == 'n'){
 				//Minus one because index[0] = player 1

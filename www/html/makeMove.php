@@ -1,12 +1,14 @@
 <?php
 if($_SERVER['REQUEST_METHOD'] === 'POST'){
-	if(empty($_POST["id"]) || empty($_POST["userid"])){
+	
+	if(empty($_POST["id"]) || empty($_POST["userid"] || empty($_POST["move"]))){
 		exit('Invalid data');
 	}
 	
 	require_once('../cleanData.php');
 	$id = cleanData_Alphanumeric($_POST["id"]);
 	$uid = cleanData_Alphanumeric($_POST["userid"]);
+	$move = cleanData_Alphanumeric($_POST["move"]);
 	
 	require_once('../mysql_connect.php');
 	$dbc = createDefaultConnection('games');
@@ -54,14 +56,14 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
 	//So now we know the player is valid!
 	
 	require_once('../roundHandler.php');
-	
-	$history = getRounds($rounds_id, $uid, 10);
-	
 	$canMove = canPlayerMove($rounds_id, $ppos);
 	
-	$array = array('history' => $history, 'ppos' => $ppos, 'canPlay' => $canMove);
-	echo json_encode($array);
+	if($canMove){
+		addRound($rounds_id, $move, $ppos);
+	}else{
+		echo "You cannot make your throw!";
+	}
 }else{
-	exit("Invalid request type");
+	exit("Invalid request");
 }
 ?>
