@@ -28,7 +28,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
 	}
 	
 	require_once('../createPlayer.php');
-	$name = cleanData_Alphanumeric($_POST["name"]);
+	$name = cleanData_Alphanumeric($_POST["name"], 15);
 		//Their name is cleaned in the createPlaer function, but oh-well
 	
 	$dbc = createDefaultConnection('games');

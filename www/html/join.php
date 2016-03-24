@@ -5,8 +5,8 @@ if(empty($_GET["id"]) || empty($_GET["name"])){
 	exit("Invalid data");
 }
 
-$id = cleanData_Alphanumeric($_GET["id"]);
-$name = cleanData_Alphanumeric($_GET["name"]);
+$id = cleanData_Alphanumeric($_GET["id"], 4);
+$name = cleanData_Alphanumeric($_GET["name"], 15);
 
 require_once('../mysql_connect.php');
 $dbc = createDefaultConnection('games');
@@ -21,7 +21,7 @@ if(!$stmt->prepare($query)){
 	exit("Error joining");
 }
 
-$stmt->bind_param("s", cleanData_Alphanumeric($id));
+$stmt->bind_param("s", $id);
 $stmt->execute();
 
 $result = $stmt->get_result();
@@ -52,7 +52,7 @@ if($row["filled"] == 0){
 		$dbc->close(); $stmt->close();
 		exit("Error joining");
 	}else{
-		$stmt->bind_param("ss", cleanData_Alphanumeric($player_id), $id);
+		$stmt->bind_param("ss", $player_id, $id);
 		$worked = $stmt->execute();
 		$dbc->close();
 		
