@@ -8,8 +8,9 @@
 		}
 		
 		$roundFile = fopen($file, "r") or die("Unable to open file");
-		$results = substr(fread($roundFile,filesize($file), -$numb));
-		fclose($roundFile);
+		$filecontents = fread($roundFile,filesize($file));
+		$results = substr($filecontents, -($numb*2));
+		fclose($roundFile);				//Times 2 because there are always 2 chars per round
 		
 		return $results;
 	}
@@ -34,7 +35,6 @@
 		$lastTwo = substr($contents, -2); //Gets last 2 chars
 		$contents = substr($contents, 0, -2);
 			//Removes the last 2 chars
-		echo $contents;
 		
 		$p1_move;
 		$p2_move;
@@ -69,6 +69,26 @@
 		$roundFile = fopen($file, "w") or die("Unable to open file");
 		fwrite($roundFile, "nn");
 		fclose($roundFile);
+	}
+	
+	function canPlayerMove($file, $playerpos){
+		$file = "/games/".$file.".txt";
+		
+		if(!file_exists($file)){
+			error_log("Could not find file ".$file);
+			exit("Error");
+		}
+		
+		$roundFile = fopen($file, "r") or die("Unable to open file");
+		
+		$lastTwo = substr(fread($roundFile, filesize($file)), -2); //Gets last 2 chars
+		
+		if($lastTwo[$playerpos-1] == 'n'){
+				//Minus one because index[0] = player 1
+			return true;
+		}else{
+			return false;
+		}
 	}
 	
 	function fileExists($file){

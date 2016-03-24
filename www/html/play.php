@@ -1,50 +1,62 @@
 <!DOCTYPE HTML>
 <html>
 <head>
-
+	<script src="js/zepto.js"></script>
 </head>
 <body>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	
-	<div class="container">
-		<h1>History:</h1>
-		
-		<table class="table" style="width:100%" border="1">
-			<tr>
-				<td>Your Move</td>
-				<td>They're Move</td>
-			</tr>
-			<?php
-				require_once("../mysql_connect.php");
-				$dbc = createDefaultConnection("games");
-				
-				$sql="SELECT id, p1_id FROM game where filled=0";
-				
-				if ($result=@mysqli_query($dbc,$sql)){
-					//Gets one row
-					require_once('../cleanData.php');
-					while($row=mysqli_fetch_row($result)){
-						
-						$join_url = "/joinGame.php?id=".cleanData_Alphanumeric($row[0]);
-											//Even though I know for a fact the user could not have set their ID, I'd still like to clean it			
-						$sql_name="SELECT name FROM player where id='".cleanData_Alphanumeric($row[1])."'";
-						
-						$p1_name = cleanData_Alphanumeric(mysqli_fetch_row(@mysqli_query($dbc,$sql_name))[0]);
-						
-						echo '<tr>';
-						
-						echo '<td>' . $p1_name . '</td>';
-						echo "<td> <a href='$join_url'>" . $join_url . '</a></td>';
-						
-						echo '</tr>';
-					}
-					mysqli_free_result($result);
-				}
-				$dbc->close();
-			?>
-		</table>
-	</div>
-</meta>
-
+	<h1> History </h1>
+	<table id="table" style="width:100%" border="1">
+		<tr>
+			<td>Your Move</td>
+			<td>Their Move</td>
+			<td>Did you win?</td>
+		</tr>
+	</table>
+	<input type="submit" name="submit" value = "Test" onclick="getData()"/>
+	<p id="message">loading<p>
 </body>
+
+<script>
+	var p_id = '<?php require_once('../cleanData.php'); echo cleanData_Alphanumeric($_GET["userid"]);?>';
+	var id = '<?php require_once('../cleanData.php'); echo cleanData_Alphanumeric($_GET["id"]);?>';
+	
+		function getData(){
+		sendAjax(function(output){
+			var results = JSON.parse(output);
+			
+			var history = results["history"];
+			var playerPos = results["ppos"];
+			var canPlay = results["canPlay"];
+			
+			if(!history || !playerPos || !canPlay){
+				$('#message').text("Error: "+output);
+			}else{
+				//$('#message').text("");
+				//$("#p_link").prop("href", personal_link);
+				//$("#j_link").prop("href", join_link);
+			
+				//$('#game_code').text("Game Code: ".concat(game_code));
+				//$('#p_link').text(personal_link);
+				//$('#j_link').text(join_link);
+				alert(results.toString());
+			}
+		});
+	}
+		
+	function sendAjax(handleData) {
+		$.ajax({
+			url:"gameData.php",
+			type:'POST',
+			data:
+			{
+				id:id,
+				userid:p_id,
+			},
+			success:function(data) {
+				handleData(data); 
+			}
+		});
+	}
+</script>
+
 </html>
