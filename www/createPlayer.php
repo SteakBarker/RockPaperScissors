@@ -5,7 +5,7 @@
 		//This function does as it says
 		//It will create a player, give it a random ID, and return that ID
 	function createPlayer($name){
-		$name = cleanData_Alphanumeric($name, 15);
+		$name = cleanData_Alphanumeric($name, 10);
 			//First we clean their name
 		
 		if(empty($name)){

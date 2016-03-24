@@ -6,7 +6,7 @@ if(empty($_GET["id"]) || empty($_GET["name"])){
 }
 
 $id = cleanData_Alphanumeric($_GET["id"], 4);
-$name = cleanData_Alphanumeric($_GET["name"], 15);
+$name = cleanData_Alphanumeric($_GET["name"], 10);
 
 require_once('../mysql_connect.php');
 $dbc = createDefaultConnection('games');
