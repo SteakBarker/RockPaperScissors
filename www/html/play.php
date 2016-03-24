@@ -1,85 +1,105 @@
-<?php
-require_once('../cleanData.php');
-if(empty($_GET["id"]) || empty($_GET["userid"])){
-	exit("Invalid data");
-}
-
-$id = cleanData_Alphanumeric($_GET["id"]);
-$user_id = cleanData_Alphanumeric($_GET["userid"]);
-
-require_once('../mysql_connect.php');
-$dbc = createDefaultConnection('games');
-$stmt = $dbc->stmt_init();
-
-$query="SELECT p1_id, p2_id FROM game where id=?";
-if(!$stmt->prepare($query)){
-	$dbc->close();
-	exit("Statement failed to prepare!");
-}
-
-$stmt->bind_param("s", $id);
-$stmt->execute();
-$result = $stmt->get_result();
-$row = $result->fetch_array();
-
-$query="SELECT id, login_id FROM player where id=?";
-if(!$stmt->prepare($query)){
-	$dbc->close();
-	exit("Statement failed to prepare!");
-}
-$stmt->bind_param("s", $user_id);
-$stmt->execute();
-$result = $stmt->get_result();
-$row_player = $result->fetch_array();
-
-if($user_id == $row_player["login_id"] && $row["p1_id"] == row_player["id"]){
-	echo "You're player 1";
-}else if($user_id == $row_player["login_id"] && $row["p2_id"] == row_player["id"]){
-	echo "You're player 2";
-}
-
-?>
-
 <!DOCTYPE HTML>
 <html>
 <head>
-<script src="js/jquery-1.12.0.js"></script>
+	<script src="js/zepto.js"></script>
+	<link rel="stylesheet" type="text/css" href="css/defaultStyle.css">
 </head>
-</body>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<body>
+	<h1> History </h1>
+	<table id="table" style="width:100%" border="1">
+		<tr>
+			<td>Your Move</td>
+			<td>Their Move</td>
+			<td>Did you win?</td>
+		</tr>
+	</table>
 	
-	<div class="container">
-		<h1> Rock Paper Scissors </h1>
-		
-		
-		
-		<input type="submit" name="submit" value = "Rock" onclick="addCat()"/>
-		<input type="submit" name="submit" value = "Paper" onclick="addCat()"/>
-		<input type="submit" name="submit" value = "Scissors" onclick="addCat()"/>
+	<div id="moves" class="center" style="display:none;">
+		<input type="submit" name="submit" value = "ROCK" onclick="play('r')"/>
+		<input type="submit" name="submit" value = "PAPER" onclick="play('p')"/>
+		<input type="submit" name="submit" value = "SCISSORS" onclick="play('s')"/>
 	</div>
-</meta>
 	
+	<p id="message"></p>
+</body>
+
 <script>
-	function createGame(){
+	var p_id = '<?php require_once('../cleanData.php'); echo cleanData_Alphanumeric($_GET["userid"]);?>';
+	var id = '<?php require_once('../cleanData.php'); echo cleanData_Alphanumeric($_GET["id"]);?>';
+	
+		function getData(){
 		sendAjax(function(output){
-			alert(output+"");
+			var results = JSON.parse(output);
+			
+			var history = results["history"];
+			var playerPos = results["ppos"];
+			var canPlay = results["canPlay"];
+			
+			if(false){//!history || !playerPos || !canPlay){
+				$('#message').text("Error (Something is null): "+output);
+			}else{
+				if(canPlay){
+					$("#moves").show();
+				}
+				for (var i = 0; i < history.length-1; i+=2) {
+					var yourMove;
+					var theirMove;
+					if(playerPos == 1){
+						yourMove=history[i]
+						theirMove=history[i+1]
+					}else{
+						yourMove=history[i+1]
+						theirMove=history[i]
+					}
+					var table = document.getElementById("table");
+					var row = table.insertRow(1);
+					
+					var cell1 = row.insertCell(0);
+					var cell2 = row.insertCell(1);
+					var cell3 = row.insertCell(2);
+					
+					cell1.innerHTML = yourMove;
+					cell2.innerHTML = theirMove;
+					cell3.innerHTML = "TODO";
+				}
+			}
 		});
 	}
 		
 	function sendAjax(handleData) {
 		$.ajax({
-			url:"creatGame.php",
+			url:"gameData.php",
 			type:'POST',
 			data:
 			{
-				p_name:document.getElementById("p_name").value,
+				id:id,
+				userid:p_id,
 			},
 			success:function(data) {
 				handleData(data); 
 			}
 		});
 	}
+	
+	function play(move){
+		$.ajax({
+			url:"makeMove.php",
+			type:'POST',
+			data:
+			{
+				id:id,
+				userid:p_id,
+				move:move,
+			},
+			success:function(data) {
+				alert(data);
+			}
+		});
+	}
+	
+	$( document ).ready(function() {
+		getData();
+	});
 </script>
 
-</body>
 </html>

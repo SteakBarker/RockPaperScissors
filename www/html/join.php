@@ -75,6 +75,4 @@ if($row["filled"] == 0){
 	$dbc->close(); $stmt->close();
 	exit("The game has already been filled");
 }
-
-$dbc->close();
 ?>
