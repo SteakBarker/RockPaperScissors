@@ -8,9 +8,9 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
 	}
 	
 	require_once('../cleanData.php');
-	$id = cleanData_Alphanumeric($_POST["id"]);
-	$uid = cleanData_Alphanumeric($_POST["userid"]);
-	$move = cleanData_Alphanumeric($_POST["move"]);
+	$id = cleanData_Alphanumeric($_POST["id"],4);
+	$uid = cleanData_Alphanumeric($_POST["userid"],5);
+	$move = cleanData_Alphanumeric($_POST["move"],1);
 	
 	require_once('../mysql_connect.php');
 	$dbc = createDefaultConnection('games');

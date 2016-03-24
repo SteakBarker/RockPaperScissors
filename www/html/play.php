@@ -24,8 +24,8 @@
 </body>
 
 <script>
-	var p_id = '<?php require_once('../cleanData.php'); echo cleanData_Alphanumeric($_GET["userid"]);?>';
-	var id = '<?php require_once('../cleanData.php'); echo cleanData_Alphanumeric($_GET["id"]);?>';
+	var p_id = '<?php require_once('../cleanData.php'); echo cleanData_Alphanumeric($_GET["userid"],5);?>';
+	var id = '<?php require_once('../cleanData.php'); echo cleanData_Alphanumeric($_GET["id"],4);?>';
 	
 		function getData(){
 		sendAjax(function(output){

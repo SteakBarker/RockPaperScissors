@@ -26,11 +26,11 @@
 					require_once('../cleanData.php');
 					while($row=mysqli_fetch_row($result)){
 						
-						$join_url = "/joinGame.php?id=".cleanData_Alphanumeric($row[0]);
+						$join_url = "/joinGame.php?id=".$row[0];
 											//Even though I know for a fact the user could not have set their ID, I'd still like to clean it			
-						$sql_name="SELECT name FROM player where id='".cleanData_Alphanumeric($row[1])."'";
+						$sql_name="SELECT name FROM player where id='".$row[1]."'";
 						
-						$p1_name = cleanData_Alphanumeric(mysqli_fetch_row(@mysqli_query($dbc,$sql_name))[0]);
+						$p1_name = cleanData_Alphanumeric(mysqli_fetch_row(@mysqli_query($dbc,$sql_name))[0], 15);
 						
 						echo '<tr>';
 						

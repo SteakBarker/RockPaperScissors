@@ -7,8 +7,8 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
 	}
 	
 	require_once('../cleanData.php');
-	$id = cleanData_Alphanumeric($_POST["id"]);
-	$uid = cleanData_Alphanumeric($_POST["userid"]);
+	$id = cleanData_Alphanumeric($_POST["id"], 4);
+	$uid = cleanData_Alphanumeric($_POST["userid"], 5);
 	
 	require_once('../mysql_connect.php');
 	$dbc = createDefaultConnection('games');

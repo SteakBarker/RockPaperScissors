@@ -5,7 +5,7 @@
 		//This function does as it says
 		//It will create a player, give it a random ID, and return that ID
 	function createPlayer($name){
-		$name = cleanData_Alphanumeric($name);
+		$name = cleanData_Alphanumeric($name, 15);
 			//First we clean their name
 		
 		if(empty($name)){
@@ -26,7 +26,7 @@
 				}
 				
 				$id = randomString_Alphanumeric(5); //Create a random 5 char string
-				$stmt->bind_param("s", cleanData_Alphanumeric($id)); //Bind it to our query
+				$stmt->bind_param("s", $id); //Bind it to our query
 				$stmt->execute();
 
 				$result = $stmt->get_result();
