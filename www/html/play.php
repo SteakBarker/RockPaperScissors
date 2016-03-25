@@ -34,8 +34,6 @@
 		<input type="submit" name="submit" value = "PAPER" onclick="play('p')"/>
 		<input type="submit" name="submit" value = "SCISSORS" onclick="play('s')"/>
 	</div>
-	
-	<p id="message"></p>
 </body>
 
 <script>

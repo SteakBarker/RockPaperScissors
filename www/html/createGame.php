@@ -24,13 +24,16 @@ function createRounds(){
 if($_SERVER['REQUEST_METHOD'] === 'POST'){
 	
 	if(empty($_POST["name"])){
-		exit('Invalid data');
+		echo json_encode(array('success' => 0, 'error' => 'Invalid data'));
+		exit();
 	}
 	
 	session_start();
 	if($_SESSION["lastGameCreated"]>time()-60){
 		error_log("User attemping to create games too fast",0);
-		exit("Must wait atleast 60 seconds before creating a new game");
+		
+		echo json_encode(array('success' => 0, 'error' => 'Must wait at-least 60 seconds before creating a new game'));
+		exit();
 	}
 	
 	$_SESSION["lastGameCreated"] = time();
@@ -52,7 +55,8 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
 		if(!$stmt->prepare($query)){
 			error_log("createGame statment failed to prepare - ".$stmt->error,0);
 			$dbc->close(); $stmt->close();
-			exit("Error creating game");
+			echo json_encode(array('success' => 0, 'error' => 'Error'));
+			exit();
 		}
 		$id = randomString_Numeric(4);
 			//Get a random 4 digit ID.
@@ -72,7 +76,8 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
 	
 	if(!$player_id){
 		error_log("For whatever reason, playerID is not set. createGame",0);
-		exit("Error creating game");
+		echo json_encode(array('success' => 0, 'error' => 'Error'));
+		exit();
 	}
 	
 	$stmt->close(); //Go ahead and close the statement. We are going to make a new one.
@@ -88,12 +93,13 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
 		$gameLink = "play.php?id=".$id."&userid=".$player_id;
 		$joinLink = "joinGame.php?id=".$id;
 		
-		$arr = array('game_id' => $id, 'p_link' => $gameLink, 'j_link' => $joinLink);
+		$arr = array('success' => 1, 'game_id' => $id, 'p_link' => $gameLink, 'j_link' => $joinLink);
 		echo json_encode($arr);
 	}else{
 		error_log("Unable to create game - ".$stmt->error, 0);
 		$dbc->close();$stmt->close();
-		exit("Error creating game");
+		echo json_encode(array('success' => 0, 'error' => 'Error'));
+		exit();
 	}
 }else{
 	exit("Invalid request");

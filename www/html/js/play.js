@@ -3,6 +3,10 @@ function getData(){
 		var results = JSON.parse(output);
 			//First we get the return, and turn it into an array
 		
+		if(results["success"]==0){
+			alert(results["error"]);
+		}
+		
 		var past_games = results["history"];
 		var playerPos = results["ppos"];
 		var canPlay = results["canPlay"];
@@ -76,7 +80,6 @@ function sendAjax(handleData) {
 		},
 			success:function(data) {
 			handleData(data);
-			$('#message').text(output);
 		}
 	});
 }
