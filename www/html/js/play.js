@@ -66,6 +66,7 @@ function getData(){
 			cell3.innerHTML = moveToName(theirMove);
 			
 		}
+		$("#loading").hide();
 	});
 }
 		
@@ -77,6 +78,8 @@ function sendAjax(handleData) {
 		{
 			id:id,
 			userid:p_id,
+		},beforeSend: function() {
+			$("#loading").show();
 		},
 			success:function(data) {
 			handleData(data);

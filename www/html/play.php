@@ -3,6 +3,7 @@
 <head>
 	<script src="js/zepto.js"></script>
 	<link rel="stylesheet" type="text/css" href="css/playStyle.css">
+	<link rel="stylesheet" type="text/css" href="css/defaultStyle.css">
 </head>
 <body>
 	<div class="menu">
@@ -34,6 +35,8 @@
 		<input type="submit" name="submit" value = "PAPER" onclick="play('p')"/>
 		<input type="submit" name="submit" value = "SCISSORS" onclick="play('s')"/>
 	</div>
+	
+	<div id="loading" class="overlay"></div>
 </body>
 
 <script>

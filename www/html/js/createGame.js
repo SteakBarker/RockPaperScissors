@@ -20,6 +20,8 @@ function createGame(){
 		$('#game_code').text("Game Code: ".concat(game_code));
 		$('#p_link').text(personal_link);
 		$('#j_link').text(join_link);
+		
+		$("#loading").hide();
 	});
 }
 	
@@ -30,8 +32,9 @@ function sendAjax(handleData) {
 		data:
 		{
 			name:document.getElementById("name").value,
-		},
-		success:function(data) {
+		},beforeSend: function() {
+			$("#loading").show();
+		},success:function(data) {
 			handleData(data); 
 		}
 	});

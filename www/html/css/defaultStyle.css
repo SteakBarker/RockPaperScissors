@@ -4,3 +4,13 @@
 .center{
 	text-align: center;
 }
+
+div.overlay{
+	position:fixed;
+	width:100%;
+	height:100%;
+	top:0;
+	left:0;
+	opacity:0.6;
+	background-color: grey;
+}
