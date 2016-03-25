@@ -29,7 +29,7 @@ function getData(){
 		
 		
 			//Now we overwrite the table. We are going to be overwriting it from scratch
-		document.getElementById("table").innerHTML = "<tr><td>Your Move</td><td>Their Move</td><td>Did you win?</td></tr>";
+		document.getElementById("table").innerHTML = "<tr><td>Your Move</td><td>Result</td><td>Their Move</td></tr>";
 		
 			//Okay. Lets start overwriting the table
 		for (var i = 0; i < past_games.length-1; i+=2){
@@ -57,9 +57,9 @@ function getData(){
 			var cell2 = row.insertCell(1);
 			var cell3 = row.insertCell(2);
 			
-			cell1.innerHTML = yourMove;
+			cell1.innerHTML = moveToName(yourMove);
 			cell2.innerHTML = didWin([yourMove,theirMove]);
-			cell3.innerHTML = theirMove;
+			cell3.innerHTML = moveToName(theirMove);
 			
 		}
 	});
@@ -79,6 +79,16 @@ function sendAjax(handleData) {
 			$('#message').text(output);
 		}
 	});
+}
+
+function moveToName(move){
+	if(move=="r"){
+		return "Rock";
+	}else if(move=="p"){
+		return "Paper"
+	}else{
+		return "Scissors";
+	}
 }
 
 function play(move){
