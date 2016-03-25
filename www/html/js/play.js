@@ -3,7 +3,7 @@ function getData(){
 		var results = JSON.parse(output);
 			//First we get the return, and turn it into an array
 		
-		var history = results["history"];
+		var past_games = results["history"];
 		var playerPos = results["ppos"];
 		var canPlay = results["canPlay"];
 		var p1Name = results["p1Name"];
@@ -11,29 +11,42 @@ function getData(){
 			
 		if(canPlay){
 			$("#moves").show();
+			
+			//If we are player one, then we know the last move we made is the last ODD number from past_games
+			//If we are player two, we know the last move we made is the last even char from past_games.
+			//we can use that here. Also, its length-2 because ABC.length=3, yet index[3] is an error
+			if(playerPos == 1){
+				document.getElementById("result").innerHTML = didWin([past_games.charAt(past_games.length-2),past_games.charAt(past_games.length-1)]).toUpperCase();
+			}else{
+				document.getElementById("result").innerHTML = didWin([past_games.charAt(past_games.length-1),past_games.charAt(past_games.length-2)]).toUpperCase();
+			}
+			
 		}else{
 			$("#moves").hide();
+			
+			document.getElementById("result").innerHTML = "PENDING";
 		}
+		
 		
 			//Now we overwrite the table. We are going to be overwriting it from scratch
 		document.getElementById("table").innerHTML = "<tr><td>Your Move</td><td>Their Move</td><td>Did you win?</td></tr>";
 		
 			//Okay. Lets start overwriting the table
-		for (var i = 0; i < history.length-1; i+=2){
+		for (var i = 0; i < past_games.length-1; i+=2){
 				//We increment by two since there 2 char per round. Example round: "rs"
 			
 			var yourMove;
 			var theirMove;
 			
 			if(playerPos == 1){
-				yourMove=history[i]; //Right, if we are player one, we know that history[i] is going to be our move since all
+				yourMove=past_games[i]; //Right, if we are player one, we know that past_games[i] is going to be our move since all
 									//all odd (and 0) indexs will be ours
-				theirMove=history[i+1]; //Right, now we get the next char, which will always be even since we increment by two
+				theirMove=past_games[i+1]; //Right, now we get the next char, which will always be even since we increment by two
 				document.getElementById("yourName").innerHTML = p1Name;
 				document.getElementById("theirName").innerHTML = p2Name;
 			}else{
-				yourMove=history[i+1]; //Same idea here. We are player two, so we know our move is going to be an even index
-				theirMove=history[i]; //And their index must be the odd one
+				yourMove=past_games[i+1]; //Same idea here. We are player two, so we know our move is going to be an even index
+				theirMove=past_games[i]; //And their index must be the odd one
 				document.getElementById("yourName").innerHTML = p2Name;
 				document.getElementById("theirName").innerHTML = p1Name;
 			}
@@ -47,6 +60,7 @@ function getData(){
 			cell1.innerHTML = yourMove;
 			cell2.innerHTML = didWin([yourMove,theirMove]);
 			cell3.innerHTML = theirMove;
+			
 		}
 	});
 }
@@ -117,6 +131,10 @@ function didWin(moves){
 	}else{
 		return "won";
 	}
+}
+
+function goHome(){
+	window.location = "index.html";
 }
 
 $( document ).ready(function() {

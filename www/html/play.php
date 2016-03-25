@@ -5,8 +5,12 @@
 	<link rel="stylesheet" type="text/css" href="css/playStyle.css">
 </head>
 <body>
+	<div class="menu">
+		<input type="submit" name="submit" value = "Home" onclick="goHome()"/>
+		<input type="submit" name="submit" value = "Refresh" onclick="getData()"/>
+	</div>
 	<div class="center">
-		<h1>PENDING</h1>
+		<h1 id="result">LOADING</h1>
 	</div>
 	
 	<div class="center">
