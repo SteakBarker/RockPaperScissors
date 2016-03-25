@@ -27,6 +27,14 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
 		exit('Invalid data');
 	}
 	
+	session_start();
+	if($_SESSION["lastGameCreated"]>time()-60){
+		error_log("User attemping to create games too fast",0);
+		exit("Must wait atleast 60 seconds before creating a new game");
+	}
+	
+	$_SESSION["lastGameCreated"] = time();
+	
 	require_once('../createPlayer.php');
 	$name = cleanData_Alphanumeric($_POST["name"], 10);
 		//Their name is cleaned in the createPlaer function, but oh-well

@@ -15,7 +15,7 @@
 	
 	<div class="center">
 		<p id="yourName" class="inline">[NAME]</p>
-		<h3 class="inline"> VS </h3>
+		<h3 id="vs" class="inline"> VS </h3>
 		<p id="theirName" class="inline">[NAME]</p>
 	</div>
 	

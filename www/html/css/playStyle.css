@@ -4,10 +4,12 @@
 
 h3.inline{
 	display:inline-block;
+	font-size: 320%;
 }
 
 p.inline{
 	display:inline-block;
+	font-size: 220%;
 	margin-right: 5vw;
     margin-left: 5vw;
 }
@@ -17,4 +19,8 @@ p.inline{
 	font-size: 120%;
 	margin-right: 30vw;
     margin-left: 30vw;
+}
+
+#moves{
+	font-size: 140%;
 }
