@@ -24,8 +24,19 @@ function createRounds(){
 if($_SERVER['REQUEST_METHOD'] === 'POST'){
 	
 	if(empty($_POST["name"])){
-		exit('Invalid data');
+		echo json_encode(array('success' => 0, 'error' => 'Invalid data'));
+		exit();
 	}
+	
+	session_start();
+	if($_SESSION["lastGameCreated"]>time()-60){
+		error_log("User attemping to create games too fast",0);
+		
+		echo json_encode(array('success' => 0, 'error' => 'Must wait at-least 60 seconds before creating a new game'));
+		exit();
+	}
+	
+	$_SESSION["lastGameCreated"] = time();
 	
 	require_once('../createPlayer.php');
 	$name = cleanData_Alphanumeric($_POST["name"], 10);
@@ -44,11 +55,12 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
 		if(!$stmt->prepare($query)){
 			error_log("createGame statment failed to prepare - ".$stmt->error,0);
 			$dbc->close(); $stmt->close();
-			exit("Error creating game");
+			echo json_encode(array('success' => 0, 'error' => 'Error'));
+			exit();
 		}
 		$id = randomString_Numeric(4);
 			//Get a random 4 digit ID.
-		$stmt->bind_param("s", cleanData_Alphanumeric($id));
+		$stmt->bind_param("s", cleanData_Alphanumeric($id,5));
 		$stmt->execute();
 		
 		$result = $stmt->get_result();
@@ -64,11 +76,12 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
 	
 	if(!$player_id){
 		error_log("For whatever reason, playerID is not set. createGame",0);
-		exit("Error creating game");
+		echo json_encode(array('success' => 0, 'error' => 'Error'));
+		exit();
 	}
 	
 	$stmt->close(); //Go ahead and close the statement. We are going to make a new one.
-	$stmt = $dbc->prepare('INSERT INTO game (id, p1_id, p2_id, rounds_id, filled, currentRound, date) VALUES(?,?,NULL,?,0,1,NULL)');
+	$stmt = $dbc->prepare('INSERT INTO game (id, p1_id, p2_id, rounds_id, filled, date) VALUES(?,?,NULL,?,0,NULL)');
 	
 	$stmt->bind_param('sss',$id, $player_id, $rounds_id);
 	
@@ -80,12 +93,13 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
 		$gameLink = "play.php?id=".$id."&userid=".$player_id;
 		$joinLink = "joinGame.php?id=".$id;
 		
-		$arr = array('game_id' => $id, 'p_link' => $gameLink, 'j_link' => $joinLink);
+		$arr = array('success' => 1, 'game_id' => $id, 'p_link' => $gameLink, 'j_link' => $joinLink);
 		echo json_encode($arr);
 	}else{
 		error_log("Unable to create game - ".$stmt->error, 0);
 		$dbc->close();$stmt->close();
-		exit("Error creating game");
+		echo json_encode(array('success' => 0, 'error' => 'Error'));
+		exit();
 	}
 }else{
 	exit("Invalid request");

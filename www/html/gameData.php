@@ -3,7 +3,8 @@
 	//History:Last 10 rounds, ppos: Player pos (1, 2), canplay:can they make their next move
 if($_SERVER['REQUEST_METHOD'] === 'POST'){
 	if(empty($_POST["id"]) || empty($_POST["userid"])){
-		exit('Invalid data');
+		echo json_encode(array('success' => 0, 'error' => 'Invalid data'));
+		exit();
 	}
 	
 	require_once('../cleanData.php');
@@ -20,7 +21,8 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
 	if(!$stmt->prepare($query)){
 		error_log("gameData statment failed to prepare - ".$stmt->error,0);
 		$dbc->close(); $stmt->close();
-		exit("Error");
+		echo json_encode(array('success' => 0, 'error' => 'Error'));
+		exit();
 	}
 		
 	$stmt->bind_param("sss",$id, $uid, $uid);
@@ -29,14 +31,16 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
 	if(!$worked){
 		error_log("gameData statement failed - ".$stmt->error,0);
 		$dbc->close(); $stmt->close();
-		exit("Error");
+		echo json_encode(array('success' => 0, 'error' => 'Error'));
+		exit();
 	}
 	$result = $stmt->get_result();
 	$row = $result->fetch_array();
 	
 	if(!$row){
 		$dbc->close(); $stmt->close();
-		exit("Cannot find valid game");
+		echo json_encode(array('success' => 0, 'error' => 'Cannot find/join game'));
+		exit();
 	}
 	
 	$ppos; //Player pos. Playe 1 or player 2
@@ -47,21 +51,27 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
 	}else{
 			//This might be dead code because of the if(!row) above
 		$dbc->close(); $stmt->close();
-		exit("You're not a valid player");
+		echo json_encode(array('success' => 0, 'error' => 'Cannot find/join game'));
+		exit();
 	}
 	
 	$rounds_id = $row["rounds_id"];
+	
+	require_once('../createPlayer.php');
+	$p1Name = cleanData_Alphanumeric(getPlayerName($row["p1_id"]), 10);
+	$p2Name = cleanData_Alphanumeric(getPlayerName($row["p2_id"]), 10);
 	
 	$dbc->close(); $stmt->close();
 	//So now we know the player is valid!
 	
 	require_once('../roundHandler.php');
 	
-	$history = getRounds($rounds_id, $uid, 10);
+	$history = getRounds($rounds_id, 10);
+	$history = substr($history, 0, -2);
 	
 	$canMove = canPlayerMove($rounds_id, $ppos);
 	
-	$array = array('history' => $history, 'ppos' => $ppos, 'canPlay' => $canMove);
+	$array = array('success' => 1, 'history' => $history, 'ppos' => $ppos, 'canPlay' => $canMove, 'p1Name' => $p1Name, 'p2Name' => $p2Name);
 	echo json_encode($array);
 }else{
 	exit("Invalid request type");
