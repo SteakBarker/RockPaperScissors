@@ -52,6 +52,10 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
 	
 	$rounds_id = $row["rounds_id"];
 	
+	require_once('../createPlayer.php');
+	$p1Name = cleanData_Alphanumeric(getPlayerName($row["p1_id"]), 10);
+	$p2Name = cleanData_Alphanumeric(getPlayerName($row["p2_id"]), 10);
+	
 	$dbc->close(); $stmt->close();
 	//So now we know the player is valid!
 	
@@ -62,7 +66,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
 	
 	$canMove = canPlayerMove($rounds_id, $ppos);
 	
-	$array = array('history' => $history, 'ppos' => $ppos, 'canPlay' => $canMove);
+	$array = array('history' => $history, 'ppos' => $ppos, 'canPlay' => $canMove, 'p1Name' => $p1Name, 'p2Name' => $p2Name);
 	echo json_encode($array);
 }else{
 	exit("Invalid request type");

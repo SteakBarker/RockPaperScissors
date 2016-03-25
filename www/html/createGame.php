@@ -48,7 +48,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
 		}
 		$id = randomString_Numeric(4);
 			//Get a random 4 digit ID.
-		$stmt->bind_param("s", cleanData_Alphanumeric($id));
+		$stmt->bind_param("s", cleanData_Alphanumeric($id,5));
 		$stmt->execute();
 		
 		$result = $stmt->get_result();

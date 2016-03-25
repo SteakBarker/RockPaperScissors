@@ -55,4 +55,41 @@
 			}
 		}
 	}
+	
+	function getPlayerName($id){
+		require_once('../cleanData.php');
+		$id = cleanData_Alphanumeric($id, 5);
+		
+		require_once('../mysql_connect.php');
+		$dbc = createDefaultConnection('games');
+		
+		$query = "SELECT name FROM player WHERE id=?";
+		$stmt = $dbc->stmt_init();
+		
+		if(!$stmt->prepare($query)){
+			error_log("createPlayer statment failed to prepare - ".$stmt->error,0);
+			$dbc->close(); $stmt->close();
+			exit("Error");
+		}
+			
+		$stmt->bind_param("s",$id);
+		$worked = $stmt->execute();
+		
+		if(!$worked){
+			error_log("create statement failed - ".$stmt->error,0);
+			$dbc->close(); $stmt->close();
+			exit("Error");
+		}
+		$result = $stmt->get_result();
+		$row = $result->fetch_array();
+		
+		$dbc->close(); $stmt->close();
+		
+		if($row["name"] === null){
+			error_log("No player with ID ".$id,0);
+			return null;
+		}else{
+			return $row["name"];
+		}
+	}
 ?>
