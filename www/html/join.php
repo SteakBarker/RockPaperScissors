@@ -27,7 +27,7 @@ $stmt->execute();
 $result = $stmt->get_result();
 $row = $result->fetch_array();
 
-if($row["filled"] == null){
+if($row["filled"] === null){
 		//If row[filled] is null, then there isn't a game with that ID
 	$dbc->close(); $stmt->close();
 	exit("Could not find game with that ID");

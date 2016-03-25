@@ -32,7 +32,7 @@
 	function addRound($file, $results, $playerpos){
 		
 			//There are only 2 players: 1, and 2.
-		if(($playerpos!=1 && $playerpos!=2) || (preg_match($results, "/([^rpsn]+)|.{2,}/"))){
+		if(($playerpos!=1 && $playerpos!=2) || (preg_match("/([^rpsn]+)|.{2,}/", $results))){
 			error_log("addRound recieved invalid data");
 			exit("Error");
 		}
