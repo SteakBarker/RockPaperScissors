@@ -12,7 +12,7 @@
 	</div>
 	<div class="container" style="max-width:700px">
 		<h1 class="title">Join Game</h1>
-		
+		<hr>
 		<div id="input" class="buttons">
 			<p>Game ID: <input id = "game_id" type="text" name="game_id" value = "<?php require_once('../cleanData.php'); echo cleanData_Alphanumeric($_GET["id"],4);?>"/></p>
 			<p>Your Name: <input id = "name" type="text" name="name" value = ""/></p>

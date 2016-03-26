@@ -15,7 +15,7 @@
 	<div class="container" style="max-width:900px;">
 	
 		<h1 class="title"> Open Games </h1>
-		
+		<hr>
 		<div class="tableContainer">
 			<table class="table">
 				<tr>
