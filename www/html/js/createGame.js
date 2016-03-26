@@ -15,6 +15,7 @@ function createGame(){
 		var join_link = results["j_link"];
 		
 		$("#result").show();
+		$("#input").hide();
 		
 		$("#p_link").prop("href", personal_link);
 		$("#j_link").prop("href", join_link);

@@ -5,24 +5,28 @@
 	<script src="js/zepto.js"></script>
 </head>
 <body>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	
-	<div class="center">
+	<div class="menu">
+		<input type="submit" name="submit" value = "Home" onclick="window.location='index.html'"/>
+	</div>
+		
+	<div class="container" style="max-width:700px">
+		
 		<h1 class="title">Create Game</h1>
 		
-		<p>Your Name: <input id = "name" type="text" name="name" value = ""/></p>
-		<input type="submit" name="submit" value = "Create Game" onclick="createGame()"/>
-		
-		<div id="result" style="display:none;">
+		<div id="input" class="buttons">
+			<p>Your Name: <input id = "name" type="text" name="name" value = ""/></p>
+			<input type="submit" name="submit" value = "Create Game" onclick="createGame()"/>
+		</div>
+		<div id="result" class="buttons" style="display:hide;">
 			<h1 id="game_code">Game Code: </h1>
 			<p>Personal Link: <a href="" id="p_link"></a><p>
 			<p>Join Link: <a href="" id="j_link"></a><p>
+			<br><p>Use your personal link to join the game. Give the join link to a friend, so they can join. Don't lose your Personal link!</p>
 		</div>
 	</div>
 	<div id="loading" class="overlay" style="display:none;"></div>
-</meta>
-	
-<script src="js/createGame.js"></script>
+		
+	<script src="js/createGame.js"></script>
 
 </body>
 </html>

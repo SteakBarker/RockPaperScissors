@@ -2,33 +2,18 @@
 <html>
 	<head>
 		<link rel="stylesheet" type="text/css" href="css/defaultStyle.css">
-		<title>RPS</title>
+		<title>MyRPS</title>
 	</head>
-	
-	
 	<body>
-		<h1 class="title">Rock Paper Scissors</h1>
-		
-		<div class="center">
-			<input type="submit" name="viewGames" value = "View Open Games" onclick="viewGames()"/>
-			<input type="submit" name="createGame" value = "Create Game" onclick="createGame()"/>
-			<input type="submit" name="joinGame" value = "Join Game" onclick="joinGame()"/>
-			<input type="submit" name="playGame" value = "Play Game" onclick="playGame()"/>
+		<div class="container" style="max-width:700px">
+			<h1 class="title">Rock Paper Scissors</h1>
+			
+			<div class="buttons">
+				<br><input type="submit" name="viewGames" value = "View Open Games" onclick="window.location.href = 'viewGames.php'"/>
+				<br><input type="submit" name="createGame" value = "Create Game" onclick="window.location.href = 'createGame.html'"/>
+				<br><input type="submit" name="joinGame" value = "Join Game" onclick="window.location.href = 'joinGame.php'"/>
+				<br><input type="submit" name="playGame" value = "Play Game" onclick="window.location.href = 'play.html'"/>
+			</div>
 		</div>
 	</body>
-	
-	<script>
-		function viewGames(){
-			window.location.href = "viewGames.php";
-		}
-		function createGame(){
-			window.location.href = "createGame.html";
-		}
-		function joinGame(){
-			window.location.href = "joinGame.php";
-		}
-		function playGame(){
-			window.location.href = "play.html";
-		}
-	</script>
 </html>
