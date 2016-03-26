@@ -2,6 +2,7 @@ function getData(){
 	sendAjax(function(output){
 		var results = JSON.parse(output);
 			//First we get the return, and turn it into an array
+		$("#loading").hide();
 		
 		if(results["success"]==0){
 			alert(results["error"]);
@@ -21,8 +22,12 @@ function getData(){
 			//we can use that here. Also, its length-2 because ABC.length=3, yet index[3] is an error
 			if(playerPos == 1){
 				document.getElementById("result").innerHTML = didWin([past_games.charAt(past_games.length-2),past_games.charAt(past_games.length-1)]).toUpperCase();
+				document.getElementById("yourName").innerHTML = p1Name;
+				document.getElementById("theirName").innerHTML = p2Name;
 			}else{
 				document.getElementById("result").innerHTML = didWin([past_games.charAt(past_games.length-1),past_games.charAt(past_games.length-2)]).toUpperCase();
+				document.getElementById("yourName").innerHTML = p2Name;
+				document.getElementById("theirName").innerHTML = p1Name;
 			}
 			
 		}else{
@@ -46,13 +51,9 @@ function getData(){
 				yourMove=past_games[i]; //Right, if we are player one, we know that past_games[i] is going to be our move since all
 									//all odd (and 0) indexs will be ours
 				theirMove=past_games[i+1]; //Right, now we get the next char, which will always be even since we increment by two
-				document.getElementById("yourName").innerHTML = p1Name;
-				document.getElementById("theirName").innerHTML = p2Name;
 			}else{
 				yourMove=past_games[i+1]; //Same idea here. We are player two, so we know our move is going to be an even index
 				theirMove=past_games[i]; //And their index must be the odd one
-				document.getElementById("yourName").innerHTML = p2Name;
-				document.getElementById("theirName").innerHTML = p1Name;
 			}
 			var table = document.getElementById("table");
 			var row = table.insertRow(1);
@@ -66,7 +67,6 @@ function getData(){
 			cell3.innerHTML = moveToName(theirMove);
 			
 		}
-		$("#loading").hide();
 	});
 }
 		

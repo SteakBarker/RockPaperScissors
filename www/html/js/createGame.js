@@ -2,6 +2,8 @@ function createGame(){
 	sendAjax(function(output){
 		var results = JSON.parse(output);
 		
+		$("#loading").hide();
+		
 		if(results["success"] == 0 ){
 			alert(results["error"]);
 			return;
@@ -20,8 +22,6 @@ function createGame(){
 		$('#game_code').text("Game Code: ".concat(game_code));
 		$('#p_link').text(personal_link);
 		$('#j_link').text(join_link);
-		
-		$("#loading").hide();
 	});
 }
 	
