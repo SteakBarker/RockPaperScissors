@@ -36,6 +36,14 @@ function getData(){
 			document.getElementById("result").innerHTML = "PENDING";
 		}
 		
+		if(playerPos == 1){
+			document.getElementById("yourName").innerHTML = p1Name;
+			document.getElementById("theirName").innerHTML = p2Name;
+		}else{
+			document.getElementById("yourName").innerHTML = p2Name;
+			document.getElementById("theirName").innerHTML = p1Name;
+		}
+		
 		
 			//Now we overwrite the table. We are going to be overwriting it from scratch
 		document.getElementById("table").innerHTML = "<tr><td>Your Move</td><td>Result</td><td>Their Move</td></tr>";
