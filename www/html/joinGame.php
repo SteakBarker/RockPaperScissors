@@ -5,6 +5,7 @@
 	<link rel="stylesheet" type="text/css" href="css/defaultStyle.css">
 	<script src="js/zepto.js"></script>
 	<script src="js/joinGame.js"></script>
+	<script src="js/cookieHandler.js"></script>
 </head>
 <body>
 	<div class="menu">

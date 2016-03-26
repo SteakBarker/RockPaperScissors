@@ -90,10 +90,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
 	if($worked){
 		$dbc->close();$stmt->close();
 		
-		$gameLink = "play.php?id=".$id."&userid=".$player_id;
-		$joinLink = "joinGame.php?id=".$id;
-		
-		$arr = array('success' => 1, 'game_id' => $id, 'p_link' => $gameLink, 'j_link' => $joinLink);
+		$arr = array('success' => 1, 'game_id' => $id, 'userid' => $player_id);
 		echo json_encode($arr);
 	}else{
 		error_log("Unable to create game - ".$stmt->error, 0);

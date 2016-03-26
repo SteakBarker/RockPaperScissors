@@ -1,0 +1,30 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<script src="js/zepto.js"></script>
+	<link rel="stylesheet" type="text/css" href="css/defaultStyle.css">
+	<link rel="stylesheet" type="text/css" href="css/tableStyle.css">
+	<script src="js/viewSavedGames.js"></script>
+	<script src="js/cookieHandler.js"></script>
+</head>
+<body>
+	<div class="menu">
+		<input type="submit" name="submit" value = "Home" onclick="window.location='index.html'"/>
+		<input type="submit" name="submit" value = "Refresh" onclick="loadTable()"/>
+	</div>
+	
+	<div class="container" style="max-width:1000px">
+		<h1 class="title">Your Saved Games</h1>
+		
+		<div class="tableContainer" style="width:70%">
+			<table id="table">
+				<tr>
+					<td>GameID</td>
+					<td>Link</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+</body>
+
+</html>

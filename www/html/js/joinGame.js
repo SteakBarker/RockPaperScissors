@@ -9,10 +9,14 @@ function createGame(){
 			return;
 		}
 		
-		
 		var game_code = results["game_id"];
-		var personal_link = results["p_link"];
-		var join_link = results["j_link"];
+		var user_id = results["userid"];
+		
+		$("#result").show();
+		$("#input").hide();
+		
+		var personal_link = "/play.php?id="+game_code+"&userid="+user_id;
+		var join_link = "/joinGame.php?id="+game_code;
 		
 		$("#result").show();
 		$("#input").hide();
@@ -20,6 +24,8 @@ function createGame(){
 		$("#p_link").prop("href", personal_link);
 	
 		$('#p_link').text(personal_link);
+		
+		addGameToCookie(game_code, user_id);
 	});
 }
 	

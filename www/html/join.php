@@ -64,10 +64,8 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
 			
 			if($worked){
 				$stmt->close();
-				
-				$gameLink = "play.php?id=".$id."&userid=".$player_id;
 					
-				$arr = array('success' => 1, 'p_link' => $gameLink);
+				$arr = array('success' => 1, 'game_id' => $id, 'userid' => $player_id);
 				echo json_encode($arr);
 			}else{
 				error_log("join statment failed to work - ".$stmt->error,0);

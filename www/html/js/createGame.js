@@ -11,11 +11,13 @@ function createGame(){
 		
 		
 		var game_code = results["game_id"];
-		var personal_link = results["p_link"];
-		var join_link = results["j_link"];
+		var user_id = results["userid"];
 		
 		$("#result").show();
 		$("#input").hide();
+		
+		var personal_link = "/play.php?id="+game_code+"&userid="+user_id;
+		var join_link = "/joinGame.php?id="+game_code;
 		
 		$("#p_link").prop("href", personal_link);
 		$("#j_link").prop("href", join_link);
@@ -23,6 +25,8 @@ function createGame(){
 		$('#game_code').text("Game Code: ".concat(game_code));
 		$('#p_link').text(personal_link);
 		$('#j_link').text(join_link);
+		
+		addGameToCookie(game_code, user_id);
 	});
 }
 	
