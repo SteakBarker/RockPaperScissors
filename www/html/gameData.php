@@ -61,6 +61,11 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
 	$p1Name = cleanData_Alphanumeric(getPlayerName($row["p1_id"]), 10);
 	$p2Name = cleanData_Alphanumeric(getPlayerName($row["p2_id"]), 10);
 	
+	if(!$p2Name){
+		//Player 2s name can be empty
+		$p2Name = "NONE";
+	}
+	
 	$dbc->close(); $stmt->close();
 	//So now we know the player is valid!
 	
