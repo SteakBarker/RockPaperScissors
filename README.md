@@ -1,7 +1,11 @@
-This is a simple site that will allow me to crush my friends at RPS.
+This project has 2 main objectives, and one secondary.
 
-As of now, it's just a prototype and **everything** is going to need to be re-written.
+It must:
 
-It also logs the results so I can train a Neural Net later (Well at-least its going to).
+1. Allow users to play RPS over a period of time. Both users do not need to be logged on at the same time to play
 
-_This page is really just for me and and maybe a friend or two to practice web programming and GitHub_
+1. Absolutely no personal data. That means no user login system, Passwords, E-Mails, etc.
+
+Further, while doing this, it would be a great opportunity to log and track results. It might be fun to train a neural net later on with it.
+
+_It's still not complete yet_
