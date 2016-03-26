@@ -37,6 +37,10 @@ function sendAjax(handleData) {
 			$("#loading").show();
 		},success:function(data) {
 			handleData(data); 
-		}
+		},error: function(){
+			$("#loading").hide();
+			alert("Request Failed");
+		},
+		timeout: 5000
 	});
 }
