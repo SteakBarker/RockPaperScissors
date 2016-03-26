@@ -39,7 +39,6 @@
 	</div>
 	<div id="loading" class="overlay"></div>
 </body>
-
 <script>
 	var p_id = '<?php require_once('../cleanData.php'); echo cleanData_Alphanumeric($_GET["userid"],5);?>';
 	var id = '<?php require_once('../cleanData.php'); echo cleanData_Alphanumeric($_GET["id"],4);?>';

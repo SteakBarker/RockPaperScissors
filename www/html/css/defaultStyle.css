@@ -5,17 +5,17 @@
 	margin-bottom: 1px;
 	padding-bottom: 1px;
 }
+
 .buttons{
 	text-align: center;
 }
 .buttons>*{
 	text-align: center;
-	font-size: 300%;
+	font-size: 220%;
 	font-family: 'Corben', Georgia, Times, serif;
 	margin-top: 1vh;
 	margin-bottom: 1vh;
 }
-
 
 div.overlay{
 	position:fixed;
@@ -23,14 +23,12 @@ div.overlay{
 	height:100%;
 	top:0;
 	left:0;
-	opacity:0.6;
+	opacity:0.3;
 	background-color: grey;
 }
 div.menu{
 	padding-top:5px;
 	padding-bottom:5px;
-	
-	width:100%;
 }
 div.menu>*{
 	font-size: 150%;
