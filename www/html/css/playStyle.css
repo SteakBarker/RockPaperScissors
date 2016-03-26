@@ -1,26 +1,15 @@
-.center{
-	text-align: center;
+#vs_div{
+	text-align:center;
 }
 
-h3.inline{
+#vs_div>*{
 	display:inline-block;
+}
+#vs_div>h3{
 	font-size: 320%;
-}
-
-p.inline{
-	display:inline-block;
-	font-size: 220%;
 	margin-right: 5vw;
     margin-left: 5vw;
 }
-
-#table_div{
-	text-align: center;
-	font-size: 120%;
-	margin-right: 30vw;
-    margin-left: 30vw;
-}
-
-#moves{
-	font-size: 140%;
+#vs_div>p{
+	font-size: 320%;
 }

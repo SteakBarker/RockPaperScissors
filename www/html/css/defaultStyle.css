@@ -1,9 +1,21 @@
 .title{
 	text-align: center;
+	font-family: 'Corben', Georgia, Times, serif;
+	font-size: 500%;
+	margin-bottom: 1px;
+	padding-bottom: 1px;
 }
-.center{
+.buttons{
 	text-align: center;
 }
+.buttons>*{
+	text-align: center;
+	font-size: 300%;
+	font-family: 'Corben', Georgia, Times, serif;
+	margin-top: 1vh;
+	margin-bottom: 1vh;
+}
+
 
 div.overlay{
 	position:fixed;
@@ -13,4 +25,17 @@ div.overlay{
 	left:0;
 	opacity:0.6;
 	background-color: grey;
+}
+div.menu{
+	padding-top:5px;
+	padding-bottom:5px;
+	
+	width:100%;
+}
+div.menu>*{
+	font-size: 150%;
+}
+div.container{
+	margin-left: auto;
+    margin-right: auto;
 }
