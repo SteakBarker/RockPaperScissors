@@ -17,7 +17,7 @@ function loadTable(){
 		var cell2 = row.insertCell(1);
 		
 		cell1.innerHTML = data[0];
-		cell2.innerHTML = "<a href='"+personal_link+"'>" + personal_link + "</a>";
+		cell2.innerHTML = "<a href='"+personal_link+"'>" +"http://myrps.info"+ personal_link + "</a>";
 	}
 }
 

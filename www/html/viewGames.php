@@ -42,7 +42,7 @@
 							echo '<tr>';
 							
 							echo '<td>' . $p1_name . '</td>';
-							echo "<td> <a href='$join_url'>" . $join_url . '</a></td>';
+							echo "<td> <a href='$join_url'>" . "http://myrps.info". $join_url . '</a></td>';
 							
 							echo '</tr>';
 						}

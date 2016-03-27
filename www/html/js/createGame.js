@@ -23,8 +23,8 @@ function createGame(){
 		$("#j_link").prop("href", join_link);
 	
 		$('#game_code').text("Game Code: ".concat(game_code));
-		$('#p_link').text(personal_link);
-		$('#j_link').text(join_link);
+		$('#p_link').text("http://myrps.info"+personal_link);
+		$('#j_link').text("http://myrps.info"+join_link);
 		
 		addGameToCookie(game_code, user_id);
 	});
