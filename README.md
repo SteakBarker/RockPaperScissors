@@ -8,4 +8,4 @@ It must:
 
 Further, while doing this, it would be a great opportunity to log and track results. It might be fun to train a neural net later on with it.
 
-_It's still not complete yet_
+_This project is closed_
